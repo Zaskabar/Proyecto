@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicacion</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-image: url('https://www.pcgamesn.com/wp-content/sites/pcgamesn/2022/01/elden-ring-like-dnd-adventure-1.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        section {
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        input[type="text"],
+        input[type="password"],
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        #chat {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bienvenido a la aplicacion</h1>
+    </header>
+
+    <main>
+        <section id="login">
+            <h2>Iniciar Sesión</h2>
+            <label for="loginUsername">Usuario:</label>
+            <input type="text" id="loginUsername" name="loginUsername">
+            <br>
+            <label for="loginPassword">Contraseña:</label>
+            <input type="password" id="loginPassword" name="loginPassword">
+            <br>
+            <button type="button" onclick="user.login()">Iniciar Sesión</button>
+            <button type="button" onclick="showRegisterForm()">Registrarse</button>
+            <button type="button" onclick="forgotPassword()">¿Olvidó la contraseña?</button>
+        </section>
+
+        <section id="register" style="display: none;">
+            <h2>Registro de Usuario</h2>
+            <label for="registerUsername">Usuario:</label>
+            <input type="text" id="registerUsername" name="registerUsername">
+            <br>
+            <label for="registerPassword">Contraseña:</label>
+            <input type="password" id="registerPassword" name="registerPassword">
+            <br>
+            <label for="registerConfirmPassword">Confirmar Contraseña:</label>
+            <input type="password" id="registerConfirmPassword" name="registerConfirmPassword">
+            <br>
+            <button type="button" onclick="user.register()">Registrarse</button>
+            <button type="button" onclick="showLoginForm()">Volver</button>
+        </section>
+
+        <section id="roles" style="display: none;">
+            <h2>Seleccione su perfil</h2>
+            <button id="masterButton" style="background-color: green;" onclick="selectProfile('master')">Master</button>
+            <button id="jugadorButton" style="background-color: blue;" onclick="selectProfile('jugador')">Jugador</button>
+            <button type="button" onclick="showLoginForm()">Volver</button>
+        </section>
+
+        <section id="masterOptions" style="display: none;">
+            <h2>Opciones del Master</h2>
+            <button type="button" onclick="showCreateRoomForm()">Crear Sala</button>
+            <button type="button" onclick="joinRoom()">Unirse a una Sala</button>
+            <button type="button" onclick="leaveRoom()">Salir de la Sala</button>
+            <button type="button" onclick="showRoles()">Volver</button>
+        </section>
+
+        <section id="playerOptions" style="display: none;">
+            <h2>Opciones del Jugador</h2>
+            <button type="button" onclick="joinRoom()">Buscar Salas</button>
+            <button type="button" onclick="leaveRoom()">Salir de la Sala</button>
+            <button type="button" onclick="showRoles()">Volver</button>
+        </section>
+
+        <section id="createRoom" style="display: none;">
+            <h2>Crear Sala</h2>
+            <label for="roomName">Nombre de la Sala:</label>
+            <input type="text" id="roomName" name="roomName">
+            <br>
+            <label for="roomPassword">Contraseña (opcional):</label>
+            <input type="password" id="roomPassword" name="roomPassword">
+            <br>
+            <label for="roomPlayers">Número de Jugadores:</label>
+            <input type="text" id="roomPlayers" name="roomPlayers">
+            <br>
+            <label for="roomDescription">Descripción:</label>
+            <input type="text" id="roomDescription" name="roomDescription">
+            <br>
+            <button type="button" onclick="createRoom()">Crear</button>
+            <button type="button" onclick="showMasterOptions()">Volver</button>
+        </section>
+
+        <section id="tirarDados" style="display: none;">
+            <h2>Tirar Dados</h2>
+            <div>
+                <button onclick="diceRoller.rollDice(4)">Roll d4</button>
+                <button onclick="diceRoller.rollDice(6)">Roll d6</button>
+                <button onclick="diceRoller.rollDice(8)">Roll d8</button>
+                <button onclick="diceRoller.rollDice(10)">Roll d10</button>
+                <button onclick="diceRoller.rollDice(12)">Roll d12</button>
+                <button onclick="diceRoller.rollDice(20)">Roll d20</button>
+            </div>
+            <label for="modificador">Modificador:</label>
+            <select id="modificador" name="modificador">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            <br>
+            <button onclick="sendMessage()">Enviar mensaje</button>
+            <input type="text" id="messageInput" placeholder="Escriba su mensaje" onkeypress="checkEnter(event)">
+            <div id="chat"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Aplicación Web</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
